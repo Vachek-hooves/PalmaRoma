@@ -10,6 +10,7 @@ import {
   Image,
   SafeAreaView,
   TextInput,
+  Alert,
 } from 'react-native';
 import MapView, {Marker, Callout} from 'react-native-maps';
 import {turistPlaces} from '../../data/turistPlaces';
@@ -27,7 +28,7 @@ const TabMapScreen = () => {
   const [createMarkerMode, setCreateMarkerMode] = useState(false);
   const [newMarker, setNewMarker] = useState(null);
   const [createModalVisible, setCreateModalVisible] = useState(false);
-  const {userMarkers, addUserMarker} = useCustomContext();
+  const {userMarkers, addUserMarker, removeUserMarker} = useCustomContext();
 
   const initialRegion = {
     latitude: 41.9028,
@@ -82,15 +83,38 @@ const TabMapScreen = () => {
     }
   };
 
+  const handleDeleteMarker = () => {
+    if (!selectedPlace || !selectedPlace.id) return;
+
+    Alert.alert(
+      "Delete Marker",
+      "Are you sure you want to delete this marker?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { 
+          text: "OK", 
+          onPress: () => {
+            removeUserMarker(selectedPlace.id);
+            setModalVisible(false);
+            setSelectedPlace(null);
+          }
+        }
+      ]
+    );
+  };
+
   const renderTuristPlaceMarkers = () => (
     turistPlaces.map((place, index) => (
       <Marker
-        key={index}
+        key={`tourist-${index}`}
         coordinate={{
           latitude: place.coordinates[0],
           longitude: place.coordinates[1],
         }}
-        onPress={() => handleMarkerPress(place)}>
+        onPress={() => handleMarkerPress({...place, isTouristPlace: true})}>
         <Callout>
           <View style={styles.calloutContainer}>
             <Text style={styles.calloutHeader}>{place.header}</Text>
@@ -106,9 +130,9 @@ const TabMapScreen = () => {
   );
 
   const renderUserMarkers = () => (
-    userMarkers.map((marker, index) => (
+    userMarkers.map((marker) => (
       <Marker
-        key={`user-${index}`}
+        key={`user-${marker.id}`}
         coordinate={marker.coordinate}
         onPress={() => handleMarkerPress(marker)}>
         <Callout>
@@ -136,6 +160,36 @@ const TabMapScreen = () => {
       // It might be a uri string
       return { uri: image };
     }
+  };
+
+  const renderMarkerDetails = () => {
+    if (!selectedPlace) return null;
+
+    const isUserMarker = !selectedPlace.isTouristPlace;
+
+    return (
+      <>
+        <Text style={styles.modalTitle}>{selectedPlace.header}</Text>
+        <Text style={styles.modalDescription}>
+          {selectedPlace.description}
+        </Text>
+        {selectedPlace.images && selectedPlace.images.map((image, index) => (
+          <Image
+            key={index}
+            source={renderMarkerImage(image)}
+            style={styles.modalImage}
+            resizeMode="cover"
+          />
+        ))}
+        {isUserMarker && (
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={handleDeleteMarker}>
+            <Text style={styles.deleteButtonText}>Delete Marker</Text>
+          </TouchableOpacity>
+        )}
+      </>
+    );
   };
 
   return (
@@ -175,22 +229,7 @@ const TabMapScreen = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalView}>
             <ScrollView contentContainerStyle={styles.modalContent}>
-              {selectedPlace && (
-                <>
-                  <Text style={styles.modalTitle}>{selectedPlace.header}</Text>
-                  <Text style={styles.modalDescription}>
-                    {selectedPlace.description}
-                  </Text>
-                  {selectedPlace.images.map((image, index) => (
-                    <Image
-                      key={index}
-                      source={renderMarkerImage(image)}
-                      style={styles.modalImage}
-                      resizeMode="cover"
-                    />
-                  ))}
-                </>
-              )}
+              {renderMarkerDetails()}
             </ScrollView>
             <TouchableOpacity
               style={styles.closeButton}
@@ -400,5 +439,19 @@ const styles = StyleSheet.create({
   instructionText: {
     color: 'white',
     textAlign: 'center',
+  },
+  deleteButton: {
+    backgroundColor: '#FF0000',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 15,
+    width: '100%',
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
