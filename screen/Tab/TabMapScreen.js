@@ -84,6 +84,8 @@ const TabMapScreen = () => {
   };
 
   const handleDeleteMarker = () => {
+    if (!selectedPlace || !selectedPlace.id) return;
+
     Alert.alert(
       "Delete Marker",
       "Are you sure you want to delete this marker?",
@@ -95,11 +97,9 @@ const TabMapScreen = () => {
         { 
           text: "OK", 
           onPress: () => {
-            if (selectedPlace && selectedPlace.id) {
-              removeUserMarker(selectedPlace.id);
-              setModalVisible(false);
-              setSelectedPlace(null);
-            }
+            removeUserMarker(selectedPlace.id);
+            setModalVisible(false);
+            setSelectedPlace(null);
           }
         }
       ]
@@ -109,12 +109,12 @@ const TabMapScreen = () => {
   const renderTuristPlaceMarkers = () => (
     turistPlaces.map((place, index) => (
       <Marker
-        key={index}
+        key={`tourist-${index}`}
         coordinate={{
           latitude: place.coordinates[0],
           longitude: place.coordinates[1],
         }}
-        onPress={() => handleMarkerPress(place)}>
+        onPress={() => handleMarkerPress({...place, isTouristPlace: true})}>
         <Callout>
           <View style={styles.calloutContainer}>
             <Text style={styles.calloutHeader}>{place.header}</Text>
@@ -130,9 +130,9 @@ const TabMapScreen = () => {
   );
 
   const renderUserMarkers = () => (
-    userMarkers.map((marker, index) => (
+    userMarkers.map((marker) => (
       <Marker
-        key={`user-${index}`}
+        key={`user-${marker.id}`}
         coordinate={marker.coordinate}
         onPress={() => handleMarkerPress(marker)}>
         <Callout>
@@ -165,7 +165,7 @@ const TabMapScreen = () => {
   const renderMarkerDetails = () => {
     if (!selectedPlace) return null;
 
-    const isUserMarker = selectedPlace.id !== undefined;
+    const isUserMarker = !selectedPlace.isTouristPlace;
 
     return (
       <>
