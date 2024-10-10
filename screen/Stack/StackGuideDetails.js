@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const StackGuideDetails = ({ route }) => {
@@ -32,17 +32,20 @@ const StackGuideDetails = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       <Image source={guide.image} style={styles.image} />
+      
       <Text style={styles.name}>{guide.guide}</Text>
       <Text style={styles.period}>{guide.period}</Text>
       <Text style={styles.welcomeText}>{guide.welcomeText}</Text>
       <Text style={styles.articleTitle}>{guide.article.title}</Text>
       {guide.article.sections.map(renderSection)}
+      
       <TouchableOpacity 
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
         <Text style={styles.backButtonText}>Back to Guides</Text>
       </TouchableOpacity>
+      <View style={styles.bottomSpace} />
     </ScrollView>
   );
 };
@@ -54,11 +57,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
     padding: 20,
-    marginTop: 20,
+    marginTop: 50,
+  },
+  bottomSpace: {
+    height: 50,
   },
   image: {
     width: '100%',
-    height: '20%',
+    height: 600,
     borderRadius: 10,
     marginBottom: 20,
   },
@@ -120,16 +126,27 @@ const styles = StyleSheet.create({
     color: '#444',
   },
   backButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#CD7F32', // Bronze color
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 20,
     marginBottom: 40,
+    shadowColor: '#8B4513', // Darker bronze for shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    borderWidth: 1,
+    borderColor: '#DEB887', // Lighter bronze for border
   },
   backButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     fontSize: 16,
     fontWeight: 'bold',
+    textShadowColor: '#8B4513', // Darker bronze for text shadow
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
   },
+  
 });
