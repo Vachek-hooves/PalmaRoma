@@ -1,16 +1,27 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { GUIDE } from '../../data/guide';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 const TabGuideScreen = () => {
+  const navigation = useNavigation();
+
+  const handleGuidePress = (guide) => {
+    navigation.navigate('StackGuideDetails', { guide });
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Choose Your Guide</Text>
       <View style={styles.guideContainer}>
         {GUIDE.map((guide) => (
-          <TouchableOpacity key={guide.id} style={styles.guideButton}>
+          <TouchableOpacity 
+            key={guide.id} 
+            style={styles.guideButton}
+            onPress={() => handleGuidePress(guide)}
+          >
             <View style={styles.imageContainer}>
               <Image source={guide.image} style={styles.guideImage} />
             </View>

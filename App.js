@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {ContextProvider} from './store/context';
-import {StackArticleDetails, StackWelcomeScreen} from './screen/Stack';
+import {StackArticleDetails, StackGuideDetails, StackWelcomeScreen} from './screen/Stack';
 import {TabArticleScreen, TabGuideScreen, TabMapScreen} from './screen/Tab';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,6 +37,7 @@ function App() {
             name="StackArticleDetails"
             component={StackArticleDetails}
           />
+          <Stack.Screen name='StackGuideDetails' component={StackGuideDetails}/>
         </Stack.Navigator>
       </NavigationContainer>
     </ContextProvider>
