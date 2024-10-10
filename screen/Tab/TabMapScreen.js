@@ -10,6 +10,7 @@ import {
   Image,
   SafeAreaView,
   TextInput,
+  Alert,
 } from 'react-native';
 import MapView, {Marker, Callout} from 'react-native-maps';
 import {turistPlaces} from '../../data/turistPlaces';
@@ -27,7 +28,7 @@ const TabMapScreen = () => {
   const [createMarkerMode, setCreateMarkerMode] = useState(false);
   const [newMarker, setNewMarker] = useState(null);
   const [createModalVisible, setCreateModalVisible] = useState(false);
-  const {userMarkers, addUserMarker} = useCustomContext();
+  const {userMarkers, addUserMarker, removeUserMarker} = useCustomContext();
 
   const initialRegion = {
     latitude: 41.9028,
@@ -80,6 +81,29 @@ const TabMapScreen = () => {
       setCreateModalVisible(false);
       setCreateMarkerMode(false);
     }
+  };
+
+  const handleDeleteMarker = () => {
+    Alert.alert(
+      "Delete Marker",
+      "Are you sure you want to delete this marker?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { 
+          text: "OK", 
+          onPress: () => {
+            if (selectedPlace && selectedPlace.id) {
+              removeUserMarker(selectedPlace.id);
+              setModalVisible(false);
+              setSelectedPlace(null);
+            }
+          }
+        }
+      ]
+    );
   };
 
   const renderTuristPlaceMarkers = () => (
@@ -138,6 +162,36 @@ const TabMapScreen = () => {
     }
   };
 
+  const renderMarkerDetails = () => {
+    if (!selectedPlace) return null;
+
+    const isUserMarker = selectedPlace.id !== undefined;
+
+    return (
+      <>
+        <Text style={styles.modalTitle}>{selectedPlace.header}</Text>
+        <Text style={styles.modalDescription}>
+          {selectedPlace.description}
+        </Text>
+        {selectedPlace.images && selectedPlace.images.map((image, index) => (
+          <Image
+            key={index}
+            source={renderMarkerImage(image)}
+            style={styles.modalImage}
+            resizeMode="cover"
+          />
+        ))}
+        {isUserMarker && (
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={handleDeleteMarker}>
+            <Text style={styles.deleteButtonText}>Delete Marker</Text>
+          </TouchableOpacity>
+        )}
+      </>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -175,22 +229,7 @@ const TabMapScreen = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalView}>
             <ScrollView contentContainerStyle={styles.modalContent}>
-              {selectedPlace && (
-                <>
-                  <Text style={styles.modalTitle}>{selectedPlace.header}</Text>
-                  <Text style={styles.modalDescription}>
-                    {selectedPlace.description}
-                  </Text>
-                  {selectedPlace.images.map((image, index) => (
-                    <Image
-                      key={index}
-                      source={renderMarkerImage(image)}
-                      style={styles.modalImage}
-                      resizeMode="cover"
-                    />
-                  ))}
-                </>
-              )}
+              {renderMarkerDetails()}
             </ScrollView>
             <TouchableOpacity
               style={styles.closeButton}
@@ -400,5 +439,19 @@ const styles = StyleSheet.create({
   instructionText: {
     color: 'white',
     textAlign: 'center',
+  },
+  deleteButton: {
+    backgroundColor: '#FF0000',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 15,
+    width: '100%',
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });

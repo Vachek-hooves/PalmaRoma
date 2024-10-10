@@ -38,7 +38,12 @@ export const ContextProvider = ({ children }) => {
   };
 
   const addUserMarker = (newMarker) => {
-    setUserMarkers(prevMarkers => [...prevMarkers, newMarker]);
+    const markerWithId = { ...newMarker, id: Date.now().toString() };
+    setUserMarkers(prevMarkers => [...prevMarkers, markerWithId]);
+  };
+
+  const removeUserMarker = (markerId) => {
+    setUserMarkers(prevMarkers => prevMarkers.filter(marker => marker.id !== markerId));
   };
 
   return (
@@ -50,6 +55,7 @@ export const ContextProvider = ({ children }) => {
         setGuideData,
         userMarkers,
         addUserMarker,
+        removeUserMarker,
       }}
     >
       {children}
