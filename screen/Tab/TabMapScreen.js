@@ -38,7 +38,7 @@ const TabMapScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
         {turistPlaces.map((place, index) => (
           <Marker
@@ -94,7 +94,7 @@ const TabMapScreen = () => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 };
 
