@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Dimensions, Modal, Text, TouchableOpacity, ScrollView, Image, SafeAreaView } from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
-import { turistPlaces } from '../../data/turistPlaces';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Modal,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  SafeAreaView,
+} from 'react-native';
+import MapView, {Marker, Callout} from 'react-native-maps';
+import {turistPlaces} from '../../data/turistPlaces';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
@@ -19,7 +29,7 @@ const TabMapScreen = () => {
     longitudeDelta: LONGITUDE_DELTA,
   };
 
-  const handleMarkerPress = (place) => {
+  const handleMarkerPress = place => {
     setSelectedPlace(place);
   };
 
@@ -29,10 +39,7 @@ const TabMapScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={initialRegion}
-      >
+      <MapView style={styles.map} initialRegion={initialRegion}>
         {turistPlaces.map((place, index) => (
           <Marker
             key={index}
@@ -40,12 +47,13 @@ const TabMapScreen = () => {
               latitude: place.coordinates[0],
               longitude: place.coordinates[1],
             }}
-            onPress={() => handleMarkerPress(place)}
-          >
+            onPress={() => handleMarkerPress(place)}>
             <Callout>
               <View style={styles.calloutContainer}>
                 <Text style={styles.calloutHeader}>{place.header}</Text>
-                <TouchableOpacity style={styles.showButton} onPress={handleShowDetails}>
+                <TouchableOpacity
+                  style={styles.showButton}
+                  onPress={handleShowDetails}>
                   <Text style={styles.showButtonText}>Show</Text>
                 </TouchableOpacity>
               </View>
@@ -58,25 +66,29 @@ const TabMapScreen = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
+        onRequestClose={() => setModalVisible(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalView}>
             <ScrollView contentContainerStyle={styles.modalContent}>
               {selectedPlace && (
                 <>
                   <Text style={styles.modalTitle}>{selectedPlace.header}</Text>
-                  <Text style={styles.modalDescription}>{selectedPlace.description}</Text>
+                  <Text style={styles.modalDescription}>
+                    {selectedPlace.description}
+                  </Text>
                   {selectedPlace.images.map((image, index) => (
-                    <Image key={index} source={image} style={styles.modalImage} />
+                    <Image
+                      key={index}
+                      source={image}
+                      style={styles.modalImage}
+                    />
                   ))}
                 </>
               )}
             </ScrollView>
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
+              onPress={() => setModalVisible(false)}>
               <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </View>
@@ -132,7 +144,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
