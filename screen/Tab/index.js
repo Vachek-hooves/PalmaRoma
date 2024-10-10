@@ -1,5 +1,5 @@
-import TabMapScreen from "./TabMapScreen";
+import TabMapScreen from './TabMapScreen';
+import TabArticleScreen from './TabArticleScreen';
+import TabGuideScreen from './TabGuideScreen';
 
-export {
-    TabMapScreen
-}
+export {TabMapScreen, TabArticleScreen, TabGuideScreen};

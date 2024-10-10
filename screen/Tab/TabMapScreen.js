@@ -12,7 +12,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import MapView, {Marker, Callout} from 'react-native-maps';
+import MapView, {Marker, Callout, Polyline} from 'react-native-maps';
 import {turistPlaces} from '../../data/turistPlaces';
 import {useCustomContext} from '../../store/context';
 import * as ImagePicker from 'react-native-image-picker';
@@ -29,6 +29,8 @@ const TabMapScreen = () => {
   const [newMarker, setNewMarker] = useState(null);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const {userMarkers, addUserMarker, removeUserMarker} = useCustomContext();
+  const [routeMarkers, setRouteMarkers] = useState([]);
+  const [showRoute, setShowRoute] = useState(false);
 
   const initialRegion = {
     latitude: 41.9028,
@@ -39,13 +41,15 @@ const TabMapScreen = () => {
 
   const handleMarkerPress = place => {
     setSelectedPlace(place);
+    setRouteMarkers(prev => [...prev, place]);
+    setShowRoute(true);
   };
 
   const handleShowDetails = () => {
     setModalVisible(true);
   };
 
-  const handleMapLongPress = (event) => {
+  const handleMapLongPress = event => {
     if (createMarkerMode) {
       const {coordinate} = event.nativeEvent;
       setNewMarker({
@@ -87,26 +91,31 @@ const TabMapScreen = () => {
     if (!selectedPlace || !selectedPlace.id) return;
 
     Alert.alert(
-      "Delete Marker",
-      "Are you sure you want to delete this marker?",
+      'Delete Marker',
+      'Are you sure you want to delete this marker?',
       [
         {
-          text: "Cancel",
-          style: "cancel"
+          text: 'Cancel',
+          style: 'cancel',
         },
-        { 
-          text: "OK", 
+        {
+          text: 'OK',
           onPress: () => {
             removeUserMarker(selectedPlace.id);
             setModalVisible(false);
             setSelectedPlace(null);
-          }
-        }
-      ]
+          },
+        },
+      ],
     );
   };
 
-  const renderTuristPlaceMarkers = () => (
+  const clearRoute = () => {
+    setRouteMarkers([]);
+    setShowRoute(false);
+  };
+
+  const renderTuristPlaceMarkers = () =>
     turistPlaces.map((place, index) => (
       <Marker
         key={`tourist-${index}`}
@@ -126,11 +135,10 @@ const TabMapScreen = () => {
           </View>
         </Callout>
       </Marker>
-    ))
-  );
+    ));
 
-  const renderUserMarkers = () => (
-    userMarkers.map((marker) => (
+  const renderUserMarkers = () =>
+    userMarkers.map(marker => (
       <Marker
         key={`user-${marker.id}`}
         coordinate={marker.coordinate}
@@ -146,19 +154,18 @@ const TabMapScreen = () => {
           </View>
         </Callout>
       </Marker>
-    ))
-  );
+    ));
 
-  const renderMarkerImage = (image) => {
+  const renderMarkerImage = image => {
     if (typeof image === 'string' && image.startsWith('data:image')) {
       // It's a base64 image
-      return { uri: image };
+      return {uri: image};
     } else if (typeof image === 'number') {
       // It's a require('./image.jpg') style import
       return image;
     } else {
       // It might be a uri string
-      return { uri: image };
+      return {uri: image};
     }
   };
 
@@ -170,17 +177,16 @@ const TabMapScreen = () => {
     return (
       <>
         <Text style={styles.modalTitle}>{selectedPlace.header}</Text>
-        <Text style={styles.modalDescription}>
-          {selectedPlace.description}
-        </Text>
-        {selectedPlace.images && selectedPlace.images.map((image, index) => (
-          <Image
-            key={index}
-            source={renderMarkerImage(image)}
-            style={styles.modalImage}
-            resizeMode="cover"
-          />
-        ))}
+        <Text style={styles.modalDescription}>{selectedPlace.description}</Text>
+        {selectedPlace.images &&
+          selectedPlace.images.map((image, index) => (
+            <Image
+              key={index}
+              source={renderMarkerImage(image)}
+              style={styles.modalImage}
+              resizeMode="cover"
+            />
+          ))}
         {isUserMarker && (
           <TouchableOpacity
             style={styles.deleteButton}
@@ -192,6 +198,28 @@ const TabMapScreen = () => {
     );
   };
 
+  const renderRoute = () => {
+    if (showRoute && routeMarkers.length >= 2) {
+      const coordinates = routeMarkers.map(marker => ({
+        latitude: marker.coordinate
+          ? marker.coordinate.latitude
+          : marker.coordinates[0],
+        longitude: marker.coordinate
+          ? marker.coordinate.longitude
+          : marker.coordinates[1],
+      }));
+
+      return (
+        <Polyline
+          coordinates={coordinates}
+          strokeColor="#FF0000"
+          strokeWidth={2}
+        />
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -200,6 +228,7 @@ const TabMapScreen = () => {
         onLongPress={handleMapLongPress}>
         {renderTuristPlaceMarkers()}
         {renderUserMarkers()}
+        {renderRoute()}
       </MapView>
 
       <TouchableOpacity
@@ -213,10 +242,20 @@ const TabMapScreen = () => {
         </Text>
       </TouchableOpacity>
 
-      {createMarkerMode && (
+      {showRoute && (
+        <TouchableOpacity style={styles.clearRouteButton} onPress={clearRoute}>
+          <Text style={styles.clearRouteButtonText}>Clear Route</Text>
+        </TouchableOpacity>
+      )}
+
+      {(createMarkerMode || !showRoute || showRoute) && (
         <View style={styles.instructionContainer}>
           <Text style={styles.instructionText}>
-            Long press on the map to add a new marker
+            {createMarkerMode
+              ? 'Long press on the map to add a new marker'
+              : !showRoute
+              ? 'Tap markers to create a route'
+              : `Route: ${routeMarkers.length} points`}
           </Text>
         </View>
       )}
@@ -252,26 +291,31 @@ const TabMapScreen = () => {
                 style={styles.input}
                 placeholder="Place Name"
                 value={newMarker?.header || ''}
-                onChangeText={(text) => setNewMarker(prev => ({...prev, header: text}))}
+                onChangeText={text =>
+                  setNewMarker(prev => ({...prev, header: text}))
+                }
               />
               <TextInput
                 style={[styles.input, styles.textArea]}
                 placeholder="Description"
                 multiline
                 value={newMarker?.description || ''}
-                onChangeText={(text) => setNewMarker(prev => ({...prev, description: text}))}
+                onChangeText={text =>
+                  setNewMarker(prev => ({...prev, description: text}))
+                }
               />
               <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
                 <Text style={styles.imageButtonText}>Add Image</Text>
               </TouchableOpacity>
-              {newMarker?.images && newMarker.images.map((image, index) => (
-                <Image 
-                  key={index} 
-                  source={renderMarkerImage(image)}
-                  style={styles.modalImage} 
-                  resizeMode="cover"
-                />
-              ))}
+              {newMarker?.images &&
+                newMarker.images.map((image, index) => (
+                  <Image
+                    key={index}
+                    source={renderMarkerImage(image)}
+                    style={styles.modalImage}
+                    resizeMode="cover"
+                  />
+                ))}
             </ScrollView>
             <TouchableOpacity
               style={styles.createButton}
@@ -378,8 +422,8 @@ const styles = StyleSheet.create({
   },
   createMarkerButton: {
     position: 'absolute',
-    top: 20,
-    right: 20,
+    bottom: 20,
+    left: 20,
     backgroundColor: '#2196F3',
     padding: 10,
     borderRadius: 5,
@@ -429,7 +473,7 @@ const styles = StyleSheet.create({
   },
   instructionContainer: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 80,
     left: 20,
     right: 20,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -453,5 +497,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 16,
+  },
+  clearRouteButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#FF5722',
+    padding: 10,
+    borderRadius: 5,
+  },
+  clearRouteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
