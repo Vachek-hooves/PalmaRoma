@@ -4,13 +4,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {ContextProvider} from './store/context';
 import {StackArticleDetails, StackWelcomeScreen} from './screen/Stack';
-import {TabArticleScreen, TabMapScreen} from './screen/Tab';
+import {TabArticleScreen, TabGuideScreen, TabMapScreen} from './screen/Tab';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen name="TabGuideScreen" component={TabGuideScreen} />
       <Tab.Screen name="TabMapScreen" component={TabMapScreen} />
       <Tab.Screen name="TabArticleScreen" component={TabArticleScreen} />
     </Tab.Navigator>
