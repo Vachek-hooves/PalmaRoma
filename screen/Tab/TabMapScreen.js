@@ -339,7 +339,7 @@ export default TabMapScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#D2B48C', // Tan color for parchment-like background
   },
   map: {
     width: Dimensions.get('window').width,
@@ -348,32 +348,41 @@ const styles = StyleSheet.create({
   calloutContainer: {
     width: 200,
     padding: 10,
+    backgroundColor: '#FFEFD5', // Papaya Whip color for callout background
+    borderWidth: 2,
+    borderColor: '#DAA520', // Goldenrod border
+    borderRadius: 10,
   },
   calloutHeader: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#8B4513', // Saddle Brown color for header
+    fontFamily: 'serif',
   },
   showButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#CD7F32', // Bronze color for button
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   showButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     fontWeight: 'bold',
+    fontFamily: 'serif',
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(139, 69, 19, 0.5)', // Semi-transparent Saddle Brown
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalView: {
     width: '90%',
     maxHeight: '80%',
-    backgroundColor: 'white',
+    backgroundColor: '#FFEFD5', // Papaya Whip color for modal background
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
@@ -385,6 +394,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    borderWidth: 2,
+    borderColor: '#DAA520', // Goldenrod border
   },
   modalContent: {
     alignItems: 'center',
@@ -394,120 +405,154 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
     textAlign: 'center',
+    color: '#8B4513', // Saddle Brown color for title
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
   },
   modalDescription: {
     fontSize: 16,
     marginBottom: 15,
     textAlign: 'justify',
+    color: '#5D4037', // Brown color for description
+    fontFamily: 'serif',
   },
   modalImage: {
     width: '100%',
     height: 200,
     marginBottom: 10,
     borderRadius: 5,
+    borderWidth: 2,
+    borderColor: '#DAA520', // Goldenrod border
   },
   closeButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#CD7F32', // Bronze color for button
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     marginTop: 15,
     width: '100%',
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   closeButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 16,
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
   },
   createMarkerButton: {
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#2196F3',
+    backgroundColor: '#CD7F32', // Bronze color for button
     padding: 10,
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   createMarkerButtonActive: {
-    backgroundColor: '#FF5722',
+    backgroundColor: '#8B4513', // Saddle Brown color for active state
   },
   createMarkerButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     fontWeight: 'bold',
+    fontFamily: 'serif',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#DAA520', // Goldenrod border
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
     width: '100%',
+    backgroundColor: '#FFF8DC', // Light cream color for input background
+    color: '#5D4037', // Brown color for text
+    fontFamily: 'serif',
   },
   textArea: {
     height: 100,
     textAlignVertical: 'top',
   },
   imageButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#CD7F32', // Bronze color for button
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   imageButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     textAlign: 'center',
+    fontFamily: 'serif',
   },
   createButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#CD7F32', // Bronze color for button
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     marginTop: 15,
     width: '100%',
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   createButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 16,
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
   },
   instructionContainer: {
     position: 'absolute',
     bottom: 80,
     left: 20,
     right: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(139, 69, 19, 0.7)', // Semi-transparent Saddle Brown
     padding: 10,
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   instructionText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     textAlign: 'center',
+    fontFamily: 'serif',
   },
   deleteButton: {
-    backgroundColor: '#FF0000',
+    backgroundColor: '#8B0000', // Dark red color for delete button
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     marginTop: 15,
     width: '100%',
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   deleteButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 16,
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
   },
   clearRouteButton: {
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#FF5722',
+    backgroundColor: '#CD7F32', // Bronze color for button
     padding: 10,
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#DAA520', // Goldenrod border
   },
   clearRouteButtonText: {
-    color: 'white',
+    color: '#FFF8DC', // Light cream color for text
     fontWeight: 'bold',
+    fontFamily: 'serif',
   },
 });
