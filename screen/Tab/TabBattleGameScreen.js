@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Dimensions } from 'react-native';
 
+const { width } = Dimensions.get('window');
 const GRID_SIZE = 5;
+const CELL_SIZE = width * 0.9 / GRID_SIZE;
 const INITIAL_RESOURCES = 10;
 const CITY_COST = 3;
 const ARMY_COST = 2;
@@ -164,24 +166,30 @@ const TabBattleGameScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Roman Conquest</Text>
-      <Text style={styles.info}>Turn: {turn === 'player' ? 'Your' : 'Enemy'}</Text>
-      <Text style={styles.info}>Your Resources: {playerResources} | Enemy Resources: {enemyResources}</Text>
-      <View style={styles.grid}>
-        {grid.map((cell, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.cell,
-              cell === 'C' && styles.playerCity,
-              cell === 'A' && styles.playerArmy,
-              cell === 'EC' && styles.enemyCity,
-              cell === 'EA' && styles.enemyArmy,
-            ]}
-            onPress={() => handleCellPress(index)}
-          >
-            <Text style={styles.cellText}>{cell}</Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.infoContainer}>
+        <Text style={styles.info}>Turn: {turn === 'player' ? 'Your' : 'Enemy'}</Text>
+        <Text style={styles.info}>Your Resources: {playerResources}</Text>
+        <Text style={styles.info}>Enemy Resources: {enemyResources}</Text>
+      </View>
+      <View style={styles.gridContainer}>
+        <View style={styles.grid}>
+          {grid.map((cell, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.cell,
+                cell === 'C' && styles.playerCity,
+                cell === 'A' && styles.playerArmy,
+                cell === 'EC' && styles.enemyCity,
+                cell === 'EA' && styles.enemyArmy,
+              ]}
+              onPress={() => handleCellPress(index)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.cellText}>{cell}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
       <TouchableOpacity style={styles.button} onPress={initializeGame}>
         <Text style={styles.buttonText}>Reset Game</Text>
@@ -195,30 +203,50 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
     marginBottom: 20,
   },
   info: {
-    fontSize: 18,
-    marginBottom: 20,
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#555',
+  },
+  gridContainer: {
+    width: width * 0.9,
+    height: width * 0.9,
+    backgroundColor: '#ddd',
+    borderRadius: 10,
+    overflow: 'hidden',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 250,
-    marginBottom: 20,
   },
   cell: {
-    width: 50,
-    height: 50,
+    width: CELL_SIZE,
+    height: CELL_SIZE,
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: '#999',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   playerCity: {
     backgroundColor: '#4CAF50',
@@ -233,17 +261,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF5722',
   },
   cellText: {
-    fontSize: 20,
+    fontSize: CELL_SIZE * 0.4,
     fontWeight: 'bold',
+    color: '#fff',
   },
   button: {
     backgroundColor: '#2196F3',
-    padding: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 5,
+    marginTop: 20,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 
