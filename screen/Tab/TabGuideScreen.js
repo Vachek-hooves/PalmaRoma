@@ -15,7 +15,7 @@ const TabGuideScreen = () => {
   const handleGamePress = (guide) => {
     navigation.navigate('StackGameScreen', { 
       guideName: guide.guide,
-      gameImage: guide.image // Using the guide's image for the game
+      gameImage: guide.image
     });
   };
 
@@ -33,12 +33,12 @@ const TabGuideScreen = () => {
                 <Image source={guide.image} style={styles.guideImage} />
               </View>
               <Text style={styles.guideName}>{guide.guide}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.gameButton}
-              onPress={() => handleGamePress(guide)}
-            >
-              <Text style={styles.gameButtonText}>Play {guide.guide}'s Game</Text>
+              <TouchableOpacity 
+                style={styles.gameButton}
+                onPress={() => handleGamePress(guide)}
+              >
+                <Text style={styles.gameButtonText}>Play {guide.guide}'s Game</Text>
+              </TouchableOpacity>
             </TouchableOpacity>
           </View>
         ))}
@@ -105,14 +105,14 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     marginTop: 70,
+    marginBottom: 20,
   },
   gameButton: {
     backgroundColor: '#CD7F32',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
-    marginTop: 20,
-    width: width - 40,
+    width: '100%',
   },
   gameButtonText: {
     color: 'white',
