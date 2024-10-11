@@ -61,6 +61,8 @@ const TabBattleGameScreen = () => {
       Alert.alert('Victory!', 'You have conquered the enemy city!', [
         {text: 'Play Again', onPress: initializeGame}
       ]);
+    } else if (isGridFull(newGrid)) {
+      endGame(newPlayerResources, enemyResources);
     } else {
       setTurn('enemy');
       setTimeout(() => enemyTurn(newGrid), 1000);
@@ -100,6 +102,8 @@ const TabBattleGameScreen = () => {
       Alert.alert('Defeat!', 'The enemy has conquered your city!', [
         {text: 'Try Again', onPress: initializeGame}
       ]);
+    } else if (isGridFull(newGrid)) {
+      endGame(playerResources, newEnemyResources);
     } else {
       setTurn('player');
     }
@@ -135,6 +139,26 @@ const TabBattleGameScreen = () => {
 
   const checkDefeat = (currentGrid) => {
     return currentGrid[0] === 'EC' || currentGrid[0] === 'EA';
+  };
+
+  const isGridFull = (currentGrid) => {
+    return !currentGrid.includes(null);
+  };
+
+  const endGame = (finalPlayerResources, finalEnemyResources) => {
+    let message;
+    if (finalPlayerResources > finalEnemyResources) {
+      message = `Victory! You won with ${finalPlayerResources} resources to ${finalEnemyResources}`;
+    } else if (finalEnemyResources > finalPlayerResources) {
+      message = `Defeat! The enemy won with ${finalEnemyResources} resources to ${finalPlayerResources}`;
+    } else {
+      message = `It's a tie! Both have ${finalPlayerResources} resources`;
+    }
+
+    setGameOver(true);
+    Alert.alert('Game Over', message, [
+      {text: 'Play Again', onPress: initializeGame}
+    ]);
   };
 
   return (
