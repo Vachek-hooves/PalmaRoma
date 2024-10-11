@@ -12,21 +12,35 @@ const TabGuideScreen = () => {
     navigation.navigate('StackGuideDetails', { guide });
   };
 
+  const handleGamePress = (guide) => {
+    navigation.navigate('StackGameScreen', { 
+      guideName: guide.guide,
+      gameImage: guide.image // Using the guide's image for the game
+    });
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Choose Your Guide</Text>
       <View style={styles.guideContainer}>
         {GUIDE.map((guide) => (
-          <TouchableOpacity 
-            key={guide.id} 
-            style={styles.guideButton}
-            onPress={() => handleGuidePress(guide)}
-          >
-            <View style={styles.imageContainer}>
-              <Image source={guide.image} style={styles.guideImage} />
-            </View>
-            <Text style={styles.guideName}>{guide.guide}</Text>
-          </TouchableOpacity>
+          <View key={guide.id} style={styles.guideWrapper}>
+            <TouchableOpacity 
+              style={styles.guideButton}
+              onPress={() => handleGuidePress(guide)}
+            >
+              <View style={styles.imageContainer}>
+                <Image source={guide.image} style={styles.guideImage} />
+              </View>
+              <Text style={styles.guideName}>{guide.guide}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.gameButton}
+              onPress={() => handleGamePress(guide)}
+            >
+              <Text style={styles.gameButtonText}>Play {guide.guide}'s Game</Text>
+            </TouchableOpacity>
+          </View>
         ))}
       </View>
     </ScrollView>
@@ -55,6 +69,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  guideWrapper: {
+    marginBottom: 40,
+    alignItems: 'center',
+  },
   guideButton: {
     alignItems: 'center',
     backgroundColor: '#ffffff',
@@ -62,13 +80,11 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 40,
     width: width - 40,
-    marginBottom: 30,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 6,
-    marginBottom: 80,
     marginTop: 20,
   },
   imageContainer: {
@@ -89,5 +105,18 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     marginTop: 70,
+  },
+  gameButton: {
+    backgroundColor: '#CD7F32',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+    width: width - 40,
+  },
+  gameButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

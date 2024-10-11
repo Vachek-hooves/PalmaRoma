@@ -39,15 +39,6 @@ const StackGuideDetails = ({ route }) => {
       <Text style={styles.articleTitle}>{guide.article.title}</Text>
       {guide.article.sections.map(renderSection)}
       
-      {guide.id === 'guide1' && (
-        <TouchableOpacity 
-          style={styles.gameButton}
-          onPress={() => navigation.navigate('CaesarBattleGame')}
-        >
-          <Text style={styles.gameButtonText}>Play Caesar's Battle Tactics</Text>
-        </TouchableOpacity>
-      )}
-      
       <TouchableOpacity 
         style={styles.backButton}
         onPress={() => navigation.goBack()}
