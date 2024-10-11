@@ -15,16 +15,54 @@ import {
   TabMapScreen,
   TabBattleGameScreen,
 } from './screen/Tab';
+import {View, Text, StyleSheet} from 'react-native';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="TabGuideScreen" component={TabGuideScreen} />
-      <Tab.Screen name="TabMapScreen" component={TabMapScreen} />
-      <Tab.Screen name="TabArticleScreen" component={TabArticleScreen} />
-      <Tab.Screen name="TabBattleGameScreen" component={TabBattleGameScreen} />
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: '#FFD700', // Gold color for active tab
+        tabBarInactiveTintColor: '#CD7F32', // Bronze color for inactive tab
+        tabBarLabelStyle: styles.tabBarLabel,
+        tabBarIcon: ({ focused, color, size }) => {
+          let label;
+
+          if (route.name === 'TabGuideScreen') {
+            label = 'G';
+          } else if (route.name === 'TabMapScreen') {
+            label = 'M';
+          } else if (route.name === 'TabArticleScreen') {
+            label = 'A';
+          }
+
+          return (
+            <View style={[styles.iconContainer, focused ? styles.activeIcon : null]}>
+              <Text style={[styles.iconText, { color }]}>{label}</Text>
+            </View>
+          );
+        },
+      })}
+    >
+      <Tab.Screen 
+        name="TabGuideScreen" 
+        component={TabGuideScreen}
+        options={{ tabBarLabel: 'Guides' }}
+      />
+      <Tab.Screen 
+        name="TabMapScreen" 
+        component={TabMapScreen}
+        options={{ tabBarLabel: 'Map' }}
+      />
+      <Tab.Screen 
+        name="TabArticleScreen" 
+        component={TabArticleScreen}
+        options={{ tabBarLabel: 'Articles' }}
+      />
     </Tab.Navigator>
   );
 };
@@ -58,5 +96,40 @@ function App() {
     </ContextProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: '#8B4513', // Saddle Brown color for tab bar background
+    borderTopWidth: 2,
+    borderTopColor: '#DAA520', // Goldenrod color for top border
+    height: 90,
+    paddingBottom: 25,
+    paddingTop: 5,
+  },
+  tabBarLabel: {
+    fontFamily: 'serif',
+    fontSize: 12,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  iconContainer: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#CD7F32', // Bronze color for icon border
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 3,
+  },
+  activeIcon: {
+    backgroundColor: '#CD7F32', // Bronze background for active icon
+  },
+  iconText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontFamily: 'serif',
+  },
+});
 
 export default App;
