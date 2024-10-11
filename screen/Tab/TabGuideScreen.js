@@ -43,6 +43,7 @@ const TabGuideScreen = () => {
           </View>
         ))}
       </View>
+      <View style={styles.bottomSpace} />
     </ScrollView>
   );
 };
@@ -50,19 +51,24 @@ const TabGuideScreen = () => {
 export default TabGuideScreen;
 
 const styles = StyleSheet.create({
+  bottomSpace: {
+    height: 50,
+  },
   container: {
     flex: 1,
     backgroundColor: '#D2B48C', // Tan color for background
     padding: 20,
+    paddingTop: 60,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#8B4513', // Saddle Brown color for title
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 40,
     fontFamily: 'serif',
     textTransform: 'uppercase',
+    
   },
   guideContainer: {
     flexDirection: 'column',
@@ -128,5 +134,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'serif',
     textTransform: 'uppercase',
+    textAlign: 'center',
   },
 });
