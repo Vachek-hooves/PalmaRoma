@@ -5,7 +5,7 @@ export const GUIDE = [
     period: 'Ancient Rome',
     welcomeText:
       'We invite you to join our tour, which will be led by Julius Caesar himself! You will learn about the secrets of the Roman army, the political intrigues and the personal life of this outstanding general. Do not miss the opportunity to meet a legend!',
-    image: require('../assets/images/guide/Caesar.png'),
+    image: require('../assets/image/guide/Caesar.png'),
     article: {
       title: "Julius Caesar's Rome",
       sections: [
@@ -130,7 +130,7 @@ export const GUIDE = [
     period: 'Medieval Rome',
     welcomeText:
       'We invite you to join our tour led by Raymond IV of Toulouse himself! You will learn about the fascinating events of the Crusades, political intrigues and the personal life of this outstanding leader.',
-    image: require('../assets/images/guide/Raymond.png'),
+    image: require('../assets/image/guide/Raymond.png'),
     article: {
       title: "Raymond IV's Medieval Rome",
       sections: [
@@ -242,7 +242,7 @@ export const GUIDE = [
     period: 'Renaissance Era',
     welcomeText:
       'We invite you to join our tour led by Michelangelo Buonarroti himself! Immerse yourself in the fascinating world of the Renaissance, where you will learn about the genius of this outstanding artist and sculptor.',
-    image: require('../assets/images/guide/Michelangelo.png'),
+    image: require('../assets/image/guide/Michelangelo.png'),
     article: {
       title: "Michelangelo's Renaissance",
       sections: [
