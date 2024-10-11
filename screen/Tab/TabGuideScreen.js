@@ -52,16 +52,17 @@ export default TabGuideScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#D2B48C', // Tan color for background
     padding: 20,
-    marginTop: 50,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#8B4513', // Saddle Brown color for title
     textAlign: 'center',
     marginBottom: 30,
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
   },
   guideContainer: {
     flexDirection: 'column',
@@ -75,24 +76,27 @@ const styles = StyleSheet.create({
   },
   guideButton: {
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#CD7F32', // Bronze color for guide button
     borderRadius: 15,
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 60,
     width: width - 40,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 6,
-    marginTop: 20,
+    borderWidth: 2,
+    borderColor: '#DAA520', // Goldenrod color for border
   },
   imageContainer: {
     position: 'absolute',
     top: -40,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#FFD700', // Gold color for image container
     borderRadius: 70,
     padding: 5,
+    borderWidth: 2,
+    borderColor: '#8B4513', // Saddle Brown color for image border
   },
   guideImage: {
     width: 115,
@@ -100,23 +104,29 @@ const styles = StyleSheet.create({
     borderRadius: 65,
   },
   guideName: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FFF', // White color for guide name
     textAlign: 'center',
     marginTop: 70,
     marginBottom: 20,
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
   },
   gameButton: {
-    backgroundColor: '#CD7F32',
+    backgroundColor: '#8B4513', // Saddle Brown color for game button
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
     width: '100%',
+    borderWidth: 2,
+    borderColor: '#DAA520', // Goldenrod color for game button border
   },
   gameButtonText: {
-    color: 'white',
+    color: '#FFD700', // Gold color for game button text
     fontSize: 16,
     fontWeight: 'bold',
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
   },
 });
