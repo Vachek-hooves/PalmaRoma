@@ -203,31 +203,38 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#F5E6CA', // Light beige background
     padding: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#8B4513', // Saddle brown color for title
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   infoContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 20,
+    backgroundColor: '#D2B48C', // Tan background for info container
+    padding: 10,
+    borderRadius: 10,
   },
   info: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#555',
+    color: '#5D4037', // Brown text color
   },
   gridContainer: {
     width: width * 0.9,
-    height: width * 0.9,
-    backgroundColor: '#ddd',
+    aspectRatio: 1,
+    backgroundColor: '#8B4513', // Saddle brown for grid border
     borderRadius: 10,
+    padding: 3, // Add padding to create an even border
     overflow: 'hidden',
     elevation: 5,
     shadowColor: '#000',
@@ -236,37 +243,43 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   grid: {
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    backgroundColor: '#D2B48C', // Tan background for grid
+    borderRadius: 7, // Slightly smaller to fit inside the container
   },
   cell: {
-    width: CELL_SIZE,
-    height: CELL_SIZE,
+    width: `${100 / GRID_SIZE}%`,
+    height: `${100 / GRID_SIZE}%`,
     borderWidth: 1,
-    borderColor: '#999',
+    borderColor: '#8B4513', // Saddle brown border
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#F5DEB3', // Wheat color for empty cells
   },
   playerCity: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#DAA520', // Goldenrod for player cities
   },
   playerArmy: {
-    backgroundColor: '#8BC34A',
+    backgroundColor: '#B8860B', // Dark goldenrod for player armies
   },
   enemyCity: {
-    backgroundColor: '#F44336',
+    backgroundColor: '#8B0000', // Dark red for enemy cities
   },
   enemyArmy: {
-    backgroundColor: '#FF5722',
+    backgroundColor: '#A52A2A', // Brown for enemy armies
   },
   cellText: {
     fontSize: CELL_SIZE * 0.4,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#FFF', // White text for contrast
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   button: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#CD853F', // Peru color for button
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
@@ -276,11 +289,16 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
+    borderWidth: 2,
+    borderColor: '#8B4513', // Saddle brown border
   },
   buttonText: {
-    color: 'white',
+    color: '#FFF', // White text
     fontSize: 18,
     fontWeight: '600',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });
 
