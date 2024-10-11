@@ -39,6 +39,15 @@ const StackGuideDetails = ({ route }) => {
       <Text style={styles.articleTitle}>{guide.article.title}</Text>
       {guide.article.sections.map(renderSection)}
       
+      {guide.id === 'guide1' && (
+        <TouchableOpacity 
+          style={styles.gameButton}
+          onPress={() => navigation.navigate('CaesarBattleGame')}
+        >
+          <Text style={styles.gameButtonText}>Play Caesar's Battle Tactics</Text>
+        </TouchableOpacity>
+      )}
+      
       <TouchableOpacity 
         style={styles.backButton}
         onPress={() => navigation.goBack()}
@@ -148,5 +157,16 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
   },
-  
+  gameButton: {
+    backgroundColor: '#CD7F32',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  gameButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

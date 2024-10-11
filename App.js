@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {ContextProvider} from './store/context';
 import {StackArticleDetails, StackGuideDetails, StackWelcomeScreen} from './screen/Stack';
-import {TabArticleScreen, TabGuideScreen, TabMapScreen} from './screen/Tab';
+import {TabArticleScreen, TabGuideScreen, TabMapScreen, TabBattleGameScreen} from './screen/Tab';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -14,6 +14,7 @@ const TabNavigator = () => {
       <Tab.Screen name="TabGuideScreen" component={TabGuideScreen} />
       <Tab.Screen name="TabMapScreen" component={TabMapScreen} />
       <Tab.Screen name="TabArticleScreen" component={TabArticleScreen} />
+      <Tab.Screen name="TabBattleGameScreen" component={TabBattleGameScreen} />
     </Tab.Navigator>
   );
 };
