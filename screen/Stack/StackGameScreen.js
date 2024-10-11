@@ -170,16 +170,15 @@ const StackGameScreen = ({ route }) => {
   // ... (all the state and game logic from TabBattleGameScreen)
 
   return (
-    
-    <ScrollView 
-    // style={styles.container} 
-    contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{guideName}'s Conquest</Text>
       <Image source={gameImage} style={styles.gameImage} />
       <View style={styles.infoContainer}>
         <Text style={styles.info}>Turn: {turn === 'player' ? 'Your' : 'Enemy'}</Text>
-        <Text style={styles.info}>Your Resources: {playerResources}</Text>
-        <Text style={styles.info}>Enemy Resources: {enemyResources}</Text>
+        <View style={styles.resourcesContainer}>
+          <Text style={styles.info}>Your Resources: {playerResources}</Text>
+          <Text style={styles.info}>Enemy Resources: {enemyResources}</Text>
+        </View>
       </View>
       <View style={styles.gridContainer}>
         <View style={styles.grid}>
@@ -209,117 +208,117 @@ const StackGameScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F5E6CA', // Light beige background
-        padding: 20,
-        height: '100%',
-      },
-      title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: '#8B4513', // Saddle brown color for title
-        textShadowColor: 'rgba(0, 0, 0, 0.2)',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-        textAlign: 'center',
-        marginTop: 10,
-      },
-      infoContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginBottom: 20,
-        backgroundColor: '#D2B48C', // Tan background for info container
-        padding: 10,
-        borderRadius: 10,
-      },
-      info: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#5D4037', // Brown text color
-      },
-      gridContainer: {
-        width: width * 0.9,
-        aspectRatio: 1,
-        backgroundColor: '#8B4513', // Saddle brown for grid border
-        borderRadius: 10,
-        padding: 3, // Add padding to create an even border
-        overflow: 'hidden',
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      grid: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        backgroundColor: '#D2B48C', // Tan background for grid
-        borderRadius: 7, // Slightly smaller to fit inside the container
-      },
-      cell: {
-        width: `${100 / GRID_SIZE}%`,
-        height: `${100 / GRID_SIZE}%`,
-        borderWidth: 1,
-        borderColor: '#8B4513', // Saddle brown border
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F5DEB3', // Wheat color for empty cells
-      },
-      playerCity: {
-        backgroundColor: '#DAA520', // Goldenrod for player cities
-      },
-      playerArmy: {
-        backgroundColor: '#B8860B', // Dark goldenrod for player armies
-      },
-      enemyCity: {
-        backgroundColor: '#8B0000', // Dark red for enemy cities
-      },
-      enemyArmy: {
-        backgroundColor: '#A52A2A', // Brown for enemy armies
-      },
-      cellText: {
-        fontSize: CELL_SIZE * 0.4,
-        fontWeight: 'bold',
-        color: '#FFF', // White text for contrast
-        textShadowColor: 'rgba(0, 0, 0, 0.5)',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-      },
-      button: {
-        backgroundColor: '#CD853F', // Peru color for button
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 5,
-        marginTop: 20,
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        borderWidth: 2,
-        borderColor: '#8B4513', // Saddle brown border
-      },
-      buttonText: {
-        color: '#FFF', // White text
-        fontSize: 18,
-        fontWeight: '600',
-        textShadowColor: 'rgba(0, 0, 0, 0.5)',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-      },
-  // ... (all styles from TabBattleGameScreen)
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F5E6CA',
+    padding: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#8B4513',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+    textAlign: 'center',
+    marginTop: 30,
+  },
+  infoContainer: {
+    width: '100%',
+    marginBottom: 20,
+    backgroundColor: '#D2B48C',
+    padding: 10,
+    borderRadius: 10,
+  },
+  resourcesContainer: {
+    marginTop: 10,
+  },
+  info: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#5D4037',
+    marginBottom: 5,
+  },
+  gridContainer: {
+    width: width * 0.9,
+    aspectRatio: 1,
+    backgroundColor: '#8B4513',
+    borderRadius: 10,
+    padding: 3,
+    overflow: 'hidden',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  grid: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: '#D2B48C',
+    borderRadius: 7,
+  },
+  cell: {
+    width: `${100 / GRID_SIZE}%`,
+    height: `${100 / GRID_SIZE}%`,
+    borderWidth: 1,
+    borderColor: '#8B4513',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F5DEB3',
+  },
+  playerCity: {
+    backgroundColor: '#DAA520',
+  },
+  playerArmy: {
+    backgroundColor: '#B8860B',
+  },
+  enemyCity: {
+    backgroundColor: '#8B0000',
+  },
+  enemyArmy: {
+    backgroundColor: '#A52A2A',
+  },
+  cellText: {
+    fontSize: CELL_SIZE * 0.4,
+    fontWeight: 'bold',
+    color: '#FFF',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  button: {
+    backgroundColor: '#CD853F',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    borderWidth: 2,
+    borderColor: '#8B4513',
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '600',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
   gameImage: {
     width: width * 0.3,
     height: width * 0.5,
     resizeMode: 'cover',
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 10,
   },
 });
 
