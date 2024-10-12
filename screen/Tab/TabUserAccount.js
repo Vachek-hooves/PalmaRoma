@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import AppLayout from '../../components/Layout/AppLayout';
 import SoundControl from '../../components/AppMusic/SoundControl';
 const USER_DATA_KEY = '@user_data';
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const TabUserAccount = () => {
   const [userName, setUserName] = useState('');
@@ -55,6 +57,7 @@ const TabUserAccount = () => {
 
   return (
     <AppLayout>
+      <View style={{height: SCREEN_HEIGHT * 0.15}}></View>
       <SoundControl />
       <Text style={styles.title}>User Profile</Text>
       <View style={styles.profileContainer}>
@@ -117,14 +120,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFEFD5', // Papaya Whip color for profile container
     borderRadius: 15,
-    padding: 20,
+    padding: 10,
     width: '100%',
     borderWidth: 2,
     borderColor: '#DAA520', // Goldenrod border
+    // height: SCREEN_HEIGHT * 0.46,
+    // marginBottom: 30,
   },
   imageContainer: {
     width: 150,
-    height: 250,
+    height: SCREEN_HEIGHT * 0.3,
     borderRadius: 75,
     overflow: 'hidden',
     marginBottom: 20,
@@ -173,6 +178,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderWidth: 2,
     borderColor: '#DAA520', // Goldenrod border
+    marginBottom: 30,
   },
   buttonText: {
     color: '#FFF8DC', // Light cream color for text

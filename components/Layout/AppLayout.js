@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   safeArea: {
-    flex: 1,justifyContent: 'center',alignItems: 'center',
+    flex: 1,
+    // justifyContent: 'center',
+    alignItems: 'center',
+    // justifyContent:'flex-end'
   },
 });
