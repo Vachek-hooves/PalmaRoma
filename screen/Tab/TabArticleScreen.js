@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Dimensions, Modal, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ImageBackground, TouchableOpacity, Dimensions, Modal, TextInput, ScrollView, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { turistPlaces } from '../../data/turistPlaces';
 import AppLayout from '../../components/Layout/AppLayout';
 import { useCustomContext } from '../../store/context';
 
-const { width } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const TabArticleScreen = ({ navigation }) => {
-  const { userArticles, addUserArticle } = useCustomContext();
+  const { userArticles, addUserArticle, deleteUserArticle } = useCustomContext();
   const [modalVisible, setModalVisible] = useState(false);
   const [newArticle, setNewArticle] = useState({ header: '', description: '', images: [] });
 
@@ -17,7 +17,23 @@ const TabArticleScreen = ({ navigation }) => {
       style={styles.articleContainer}
       onPress={() => navigation.navigate('StackArticleDetails', { article: item })}
     >
-      {renderArticleImage(item)}
+      <ImageBackground 
+        source={getImageSource(item)}
+        style={styles.image}
+        imageStyle={styles.imageStyle}
+      >
+        {userArticles.some(article => article.id === item.id) && (
+          <TouchableOpacity 
+            style={styles.deleteButton}
+            onPress={(e) => {
+              e.stopPropagation();
+              confirmDelete(item.id);
+            }}
+          >
+            <Text style={styles.deleteButtonText}>X</Text>
+          </TouchableOpacity>
+        )}
+      </ImageBackground>
       <View style={styles.textContainer}>
         <Text style={styles.header}>{item.header}</Text>
         <Text style={styles.description} numberOfLines={3}>
@@ -27,19 +43,22 @@ const TabArticleScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const renderArticleImage = (item) => {
+  const getImageSource = (item) => {
     if (item.images && item.images.length > 0) {
-      if (typeof item.images[0] === 'string') {
-        // User-created article image
-        return <Image source={{ uri: item.images[0] }} style={styles.image} />;
-      } else {
-        // TuristPlaces article image
-        return <Image source={item.images[0]} style={styles.image} />;
-      }
-    } else {
-      // Default image if no image is available
-      return <Image source={require('../../assets/image/defaultImage.png')} style={styles.image} />;
+      return typeof item.images[0] === 'string' ? { uri: item.images[0] } : item.images[0];
     }
+    return require('../../assets/image/defaultImage.png');
+  };
+
+  const confirmDelete = (articleId) => {
+    Alert.alert(
+      "Delete Article",
+      "Are you sure you want to delete this article?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", onPress: () => deleteUserArticle(articleId), style: "destructive" }
+      ]
+    );
   };
 
   const handleAddImage = () => {
@@ -127,55 +146,13 @@ const TabArticleScreen = ({ navigation }) => {
 export default TabArticleScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: '#D2B48C', // Tan color for parchment-like background
-    padding: 20,
-    paddingTop: 60,
-  },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#DAA520', // Saddle Brown color for title
-    marginBottom: 30,
+    color: '#8B4513',
+    marginBottom: 20,
+    fontFamily: 'serif',
     textAlign: 'center',
-    fontFamily: 'serif',
-    textTransform: 'uppercase',
-  },
-  articleContainer: {
-    backgroundColor: '#FFEFD5', // Papaya Whip color for article background
-    borderRadius: 15,
-    overflow: 'hidden',
-    marginBottom: 30,
-    elevation: 5,
-    shadowColor: '#8B4513',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    borderWidth: 2,
-    borderColor: '#DAA520', // Goldenrod border
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-  },
-  textContainer: {
-    padding: 15,
-  },
-  header: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#8B4513', // Saddle Brown color for header
-    marginBottom: 10,
-    fontFamily: 'serif',
-    textTransform: 'uppercase',
-  },
-  description: {
-    fontSize: 16,
-    color: '#5D4037', // Brown color for description
-    lineHeight: 24,
-    fontFamily: 'serif',
   },
   addButton: {
     backgroundColor: '#CD7F32',
@@ -192,6 +169,56 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'serif',
     textTransform: 'uppercase',
+  },
+  articleContainer: {
+    marginBottom: 20,
+    backgroundColor: '#FFEFD5',
+    borderRadius: 10,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#DAA520',
+    width: SCREEN_WIDTH - 32, // Adjust this value as needed
+    alignSelf: 'center',
+  },
+  image: {
+    width: '100%',
+    height: (SCREEN_WIDTH - 32) * 0.6, // Maintain aspect ratio
+  },
+  imageStyle: {
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  },
+  textContainer: {
+    padding: 10,
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#8B4513',
+    marginBottom: 5,
+    fontFamily: 'serif',
+  },
+  description: {
+    fontSize: 14,
+    color: '#5D4037',
+    fontFamily: 'serif',
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(139, 0, 0, 0.7)',
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteButtonText: {
+    color: '#FFF8DC',
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontFamily: 'serif',
   },
   modalOverlay: {
     flex: 1,

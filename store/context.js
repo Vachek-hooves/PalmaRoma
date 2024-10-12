@@ -121,6 +121,14 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
+  const deleteUserArticle = (articleId) => {
+    setUserArticles(prevArticles => {
+      const updatedArticles = prevArticles.filter(article => article.id !== articleId);
+      saveUserArticles(updatedArticles);
+      return updatedArticles;
+    });
+  };
+
   return (
     <Context.Provider
       value={{
@@ -135,6 +143,7 @@ export const ContextProvider = ({ children }) => {
         getGameResults,
         userArticles,
         addUserArticle,
+        deleteUserArticle,
       }}
     >
       {children}
