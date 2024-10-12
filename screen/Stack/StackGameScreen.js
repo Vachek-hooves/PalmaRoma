@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Dimensions, Image, ScrollView } from 'react-native';
+import { useCustomContext } from '../../store/context';
 
 const { width } = Dimensions.get('window');
 const GRID_SIZE = 5;
@@ -10,16 +11,19 @@ const ARMY_COST = 2;
 
 const StackGameScreen = ({ route }) => {
   const { guideName, gameImage } = route.params;
+  const { saveGameResult, getGameResults } = useCustomContext();
   const [grid, setGrid] = useState(Array(GRID_SIZE * GRID_SIZE).fill(null));
   const [playerResources, setPlayerResources] = useState(INITIAL_RESOURCES);
   const [enemyResources, setEnemyResources] = useState(INITIAL_RESOURCES);
   const [turn, setTurn] = useState('player');
   const [gameOver, setGameOver] = useState(false);
-
+  const [gameStats, setGameStats] = useState({ wins: 0, losses: 0, ties: 0 });
 
   useEffect(() => {
     initializeGame();
-  }, []);
+    const stats = getGameResults(guideName);
+    setGameStats(stats);
+  }, [guideName]);
 
   const initializeGame = () => {
     const newGrid = Array(GRID_SIZE * GRID_SIZE).fill(null);
@@ -151,23 +155,29 @@ const StackGameScreen = ({ route }) => {
 
   const endGame = (finalPlayerResources, finalEnemyResources) => {
     let message;
+    let result;
     if (finalPlayerResources > finalEnemyResources) {
       message = `Victory! You won with ${finalPlayerResources} resources to ${finalEnemyResources}`;
+      result = 'wins';
     } else if (finalEnemyResources > finalPlayerResources) {
       message = `Defeat! The enemy won with ${finalEnemyResources} resources to ${finalPlayerResources}`;
+      result = 'losses';
     } else {
       message = `It's a tie! Both have ${finalPlayerResources} resources`;
+      result = 'ties';
     }
+
+    saveGameResult(guideName, result);
+    setGameStats(prevStats => ({
+      ...prevStats,
+      [result]: prevStats[result] + 1
+    }));
 
     setGameOver(true);
     Alert.alert('Game Over', message, [
       {text: 'Play Again', onPress: initializeGame}
     ]);
   };
-
-
-
-  // ... (all the state and game logic from TabBattleGameScreen)
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -199,6 +209,11 @@ const StackGameScreen = ({ route }) => {
             </TouchableOpacity>
           ))}
         </View>
+      </View>
+      <View style={styles.statsContainer}>
+        <Text style={styles.statsText}>Wins: {gameStats.wins}</Text>
+        <Text style={styles.statsText}>Losses: {gameStats.losses}</Text>
+        <Text style={styles.statsText}>Ties: {gameStats.ties}</Text>
       </View>
       <TouchableOpacity style={styles.button} onPress={initializeGame}>
         <Text style={styles.buttonText}>Reset Game</Text>
@@ -319,6 +334,20 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 10,
     marginBottom: 10,
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+    backgroundColor: '#D2B48C',
+    padding: 10,
+    borderRadius: 10,
+  },
+  statsText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#5D4037',
   },
 });
 
