@@ -5,16 +5,19 @@ export const Context = createContext();
 
 const STORAGE_KEY = '@user_markers';
 const GAME_RESULTS_KEY = '@game_results';
+const USER_ARTICLES_KEY = '@user_articles';
 
 export const ContextProvider = ({ children }) => {
   const [guide, setGuide] = useState(null);
   const [guideData, setGuideData] = useState(null);
   const [userMarkers, setUserMarkers] = useState([]);
   const [gameResults, setGameResults] = useState({});
+  const [userArticles, setUserArticles] = useState([]);
 
   useEffect(() => {
     loadMarkers();
     loadGameResults();
+    loadUserArticles();
   }, []);
 
   useEffect(() => {
@@ -63,6 +66,25 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const loadUserArticles = async () => {
+    try {
+      const storedArticles = await AsyncStorage.getItem(USER_ARTICLES_KEY);
+      if (storedArticles !== null) {
+        setUserArticles(JSON.parse(storedArticles));
+      }
+    } catch (error) {
+      console.error('Error loading user articles:', error);
+    }
+  };
+
+  const saveUserArticles = async () => {
+    try {
+      await AsyncStorage.setItem(USER_ARTICLES_KEY, JSON.stringify(userArticles));
+    } catch (error) {
+      console.error('Error saving user articles:', error);
+    }
+  };
+
   const addUserMarker = (newMarker) => {
     const markerWithId = { ...newMarker, id: Date.now().toString() };
     setUserMarkers(prevMarkers => [...prevMarkers, markerWithId]);
@@ -90,6 +112,15 @@ export const ContextProvider = ({ children }) => {
     return gameResults[guideName] || { wins: 0, losses: 0, ties: 0 };
   };
 
+  const addUserArticle = (newArticle) => {
+    const articleWithId = { ...newArticle, id: Date.now().toString() };
+    setUserArticles(prevArticles => {
+      const updatedArticles = [...prevArticles, articleWithId];
+      saveUserArticles(updatedArticles);
+      return updatedArticles;
+    });
+  };
+
   return (
     <Context.Provider
       value={{
@@ -102,6 +133,8 @@ export const ContextProvider = ({ children }) => {
         removeUserMarker,
         saveGameResult,
         getGameResults,
+        userArticles,
+        addUserArticle,
       }}
     >
       {children}
