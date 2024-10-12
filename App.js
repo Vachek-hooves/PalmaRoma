@@ -39,6 +39,8 @@ const TabNavigator = () => {
             label = 'M';
           } else if (route.name === 'TabArticleScreen') {
             label = 'A';
+          } else if (route.name === 'TabUserScreen') {
+            label = 'U';
           }
 
           return (
@@ -67,7 +69,11 @@ const TabNavigator = () => {
         component={TabArticleScreen}
         options={{tabBarLabel: 'Articles'}}
       />
-      <Tab.Screen name="TabUserScreen" component={TabUserAccount} />
+      <Tab.Screen
+        name="TabUserScreen"
+        component={TabUserAccount}
+        options={{tabBarLabel: 'Account'}}
+      />
     </Tab.Navigator>
   );
 };
