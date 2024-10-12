@@ -32,10 +32,6 @@ const StackWelcomeScreen = ({ navigation }) => {
       style={styles.container}
     >
       <View style={styles.overlay}>
-        <Image
-          // source={require('../../assets/palma-roma-logo.png')}
-          style={styles.logo}
-        />
         <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
           <Text style={styles.title}>Welcome to Le Place Rome:Time Travel</Text>
           <Text style={styles.subtitle}>Discover the Eternal City</Text>
@@ -56,7 +52,6 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(139, 69, 19, 0.3)', // Semi-transparent Saddle Brown
-    // justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
   },

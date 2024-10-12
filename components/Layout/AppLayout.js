@@ -20,9 +20,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(139, 69, 19, 0.6)', // Semi-transparent Saddle Brown
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    backgroundColor: 'rgba(139, 69, 19, 0.6)', 
     width: '100%',
     paddingHorizontal: 10,
   },
