@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { launchImageLibrary } from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
+import AppLayout from '../../components/Layout/AppLayout';
 
 const USER_DATA_KEY = '@user_data';
 
@@ -53,7 +54,7 @@ const TabUserAccount = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <AppLayout>
       <Text style={styles.title}>User Profile</Text>
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
@@ -89,7 +90,7 @@ const TabUserAccount = () => {
       >
         <Text style={styles.buttonText}>{isEditing ? 'Save' : 'Edit Profile'}</Text>
       </TouchableOpacity>
-    </View>
+    </AppLayout>
   );
 };
 
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#8B4513', // Saddle Brown color for title
+    color: '#DAA520', // Saddle Brown color for title
     marginBottom: 30,
     fontFamily: 'serif',
     textTransform: 'uppercase',
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: 150,
-    height: 150,
+    height: 250,
     borderRadius: 75,
     overflow: 'hidden',
     marginBottom: 20,

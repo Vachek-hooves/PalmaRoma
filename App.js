@@ -59,6 +59,11 @@ const TabNavigator = () => {
         component={TabGuideScreen}
         options={{tabBarLabel: 'Guides'}}
       />
+        <Tab.Screen
+          name="TabUserScreen"
+          component={TabUserAccount}
+          options={{tabBarLabel: 'Account'}}
+        />
       <Tab.Screen
         name="TabMapScreen"
         component={TabMapScreen}
@@ -68,11 +73,6 @@ const TabNavigator = () => {
         name="TabArticleScreen"
         component={TabArticleScreen}
         options={{tabBarLabel: 'Articles'}}
-      />
-      <Tab.Screen
-        name="TabUserScreen"
-        component={TabUserAccount}
-        options={{tabBarLabel: 'Account'}}
       />
     </Tab.Navigator>
   );

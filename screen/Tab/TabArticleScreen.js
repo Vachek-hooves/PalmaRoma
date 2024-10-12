@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { turistPlaces } from '../../data/turistPlaces';
+import AppLayout from '../../components/Layout/AppLayout';
 
 const { width } = Dimensions.get('window');
 
@@ -21,7 +22,7 @@ const TabArticleScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <AppLayout>
       <Text style={styles.title}>Discover Rome</Text>
       <FlatList
         data={turistPlaces}
@@ -29,7 +30,7 @@ const TabArticleScreen = ({ navigation }) => {
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </AppLayout>
   );
 };
 
@@ -38,14 +39,14 @@ export default TabArticleScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D2B48C', // Tan color for parchment-like background
+    // backgroundColor: '#D2B48C', // Tan color for parchment-like background
     padding: 20,
     paddingTop: 60,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#8B4513', // Saddle Brown color for title
+    color: '#DAA520', // Saddle Brown color for title
     marginBottom: 30,
     textAlign: 'center',
     fontFamily: 'serif',

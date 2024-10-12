@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { GUIDE } from '../../data/guide';
-import { useNavigation } from '@react-navigation/native';
-
-const { width } = Dimensions.get('window');
+import {useNavigation} from '@react-navigation/native';
+import AppLayout from '../../components/Layout/AppLayout';
+const {width} = Dimensions.get('window');
 
 const TabGuideScreen = () => {
   const navigation = useNavigation();
@@ -20,6 +20,8 @@ const TabGuideScreen = () => {
   };
 
   return (
+    <AppLayout>
+
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Choose Your Guide</Text>
       <View style={styles.guideContainer}>
@@ -28,7 +30,7 @@ const TabGuideScreen = () => {
             <TouchableOpacity 
               style={styles.guideButton}
               onPress={() => handleGuidePress(guide)}
-            >
+              >
               <View style={styles.imageContainer}>
                 <Image source={guide.image} style={styles.guideImage} />
               </View>
@@ -36,7 +38,7 @@ const TabGuideScreen = () => {
               <TouchableOpacity 
                 style={styles.gameButton}
                 onPress={() => handleGamePress(guide)}
-              >
+                >
                 <Text style={styles.gameButtonText}>Play {guide.guide}'s Game</Text>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -45,6 +47,7 @@ const TabGuideScreen = () => {
       </View>
       <View style={styles.bottomSpace} />
     </ScrollView>
+        </AppLayout>
   );
 };
 
@@ -56,14 +59,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#D2B48C', // Tan color for background
-    padding: 20,
-    paddingTop: 60,
+    // backgroundColor: '#D2B48C', // Tan color for background
+    // padding: 20,
+    // paddingTop: 60,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#8B4513', // Saddle Brown color for title
+    color: '#DAA520', // Saddle Brown color for title
     textAlign: 'center',
     marginBottom: 40,
     fontFamily: 'serif',
@@ -94,6 +97,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     borderWidth: 2,
     borderColor: '#DAA520', // Goldenrod color for border
+    marginBottom: 20, 
   },
   imageContainer: {
     position: 'absolute',
