@@ -14,6 +14,7 @@ import {
   TabGuideScreen,
   TabMapScreen,
   TabBattleGameScreen,
+  TabUserAccount,
 } from './screen/Tab';
 import {View, Text, StyleSheet} from 'react-native';
 
@@ -23,13 +24,13 @@ const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({route}) => ({
         headerShown: false,
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: '#FFD700', // Gold color for active tab
         tabBarInactiveTintColor: '#CD7F32', // Bronze color for inactive tab
         tabBarLabelStyle: styles.tabBarLabel,
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({focused, color, size}) => {
           let label;
 
           if (route.name === 'TabGuideScreen') {
@@ -41,28 +42,32 @@ const TabNavigator = () => {
           }
 
           return (
-            <View style={[styles.iconContainer, focused ? styles.activeIcon : null]}>
-              <Text style={[styles.iconText, { color }]}>{label}</Text>
+            <View
+              style={[
+                styles.iconContainer,
+                focused ? styles.activeIcon : null,
+              ]}>
+              <Text style={[styles.iconText, {color}]}>{label}</Text>
             </View>
           );
         },
-      })}
-    >
-      <Tab.Screen 
-        name="TabGuideScreen" 
+      })}>
+      <Tab.Screen
+        name="TabGuideScreen"
         component={TabGuideScreen}
-        options={{ tabBarLabel: 'Guides' }}
+        options={{tabBarLabel: 'Guides'}}
       />
-      <Tab.Screen 
-        name="TabMapScreen" 
+      <Tab.Screen
+        name="TabMapScreen"
         component={TabMapScreen}
-        options={{ tabBarLabel: 'Map' }}
+        options={{tabBarLabel: 'Map'}}
       />
-      <Tab.Screen 
-        name="TabArticleScreen" 
+      <Tab.Screen
+        name="TabArticleScreen"
         component={TabArticleScreen}
-        options={{ tabBarLabel: 'Articles' }}
+        options={{tabBarLabel: 'Articles'}}
       />
+      <Tab.Screen name="TabUserScreen" component={TabUserAccount} />
     </Tab.Navigator>
   );
 };
