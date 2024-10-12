@@ -1,18 +1,18 @@
-workflow:
+workflows:
   place-rome-workflow:
-    name: Le Place Rome:Time Travel
+    name: Le Place Roma:Time Travel
     max_build_duration: 120
     integrations:
       app_store_connect: 
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: 
+        bundle_identifier: com.rome.timetravel
       vars:
-        APP_STORE_APPLE_ID:
-        BUNDLE_ID:
-        XCODE_WORKSPACE:
-        CODE_SCHEME:
+        APP_STORE_APPLE_ID: 6736865102
+        BUNDLE_ID: 'com.rome.timetravel'
+        XCODE_WORKSPACE: 'PalmaRoma.xcworkspace'
+        CODE_SCHEME: 'PalmaRoma'
     scripts:
       - name: Install node modules
         script: |
@@ -51,4 +51,4 @@ workflow:
       app_store_connect:
         auth: integration
         submit_to_app_store: true
-        copyright: Le Place Rome:Time Travel
+        copyright: Le Place Roma:Time Travel
