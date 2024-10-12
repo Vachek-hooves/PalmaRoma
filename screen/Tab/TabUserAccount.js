@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } fro
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import AppLayout from '../../components/Layout/AppLayout';
-
+import SoundControl from '../../components/AppMusic/SoundControl';
 const USER_DATA_KEY = '@user_data';
 
 const TabUserAccount = () => {
@@ -55,6 +55,7 @@ const TabUserAccount = () => {
 
   return (
     <AppLayout>
+      <SoundControl />
       <Text style={styles.title}>User Profile</Text>
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState,useRef} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -16,7 +16,8 @@ import {
   TabBattleGameScreen,
   TabUserAccount,
 } from './screen/Tab';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet,AppState,Platform} from 'react-native';
+import { playBackgroundMusic,resetPlayer } from './components/AppMusic/setupPlayer';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,15 +56,15 @@ const TabNavigator = () => {
         },
       })}>
       <Tab.Screen
+        name="TabUserScreen"
+        component={TabUserAccount}
+        options={{tabBarLabel: 'Account'}}
+      />
+      <Tab.Screen
         name="TabGuideScreen"
         component={TabGuideScreen}
         options={{tabBarLabel: 'Guides'}}
       />
-        <Tab.Screen
-          name="TabUserScreen"
-          component={TabUserAccount}
-          options={{tabBarLabel: 'Account'}}
-        />
       <Tab.Screen
         name="TabMapScreen"
         component={TabMapScreen}
@@ -79,6 +80,33 @@ const TabNavigator = () => {
 };
 
 function App() {
+
+  useEffect(() => {
+    const initializePlayer = async () => {
+      try {
+        await playBackgroundMusic();
+      } catch (error) {
+        console.error('Error initializing player:', error);
+      }
+    };
+
+    initializePlayer();
+
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        resetPlayer();
+      } else if (nextAppState === 'active') {
+        playBackgroundMusic();
+      }
+    });
+
+    return () => {
+      subscription.remove();
+      resetPlayer();
+    };
+  }, []);
+
+
   return (
     <ContextProvider>
       <NavigationContainer>

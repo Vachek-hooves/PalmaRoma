@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(139, 69, 19, 0.6)', // Semi-transparent Saddle Brown
-    justifyContent: 'center',
+    backgroundColor: 'rgba(139, 69, 19, 0.3)', // Semi-transparent Saddle Brown
+    // justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
   },
