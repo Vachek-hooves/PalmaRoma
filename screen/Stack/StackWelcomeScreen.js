@@ -1,24 +1,47 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, ImageBackground, Animated } from 'react-native';
 
 const StackWelcomeScreen = ({ navigation }) => {
+  const [fadeAnim] = useState(new Animated.Value(0));
+  const [slideAnim] = useState(new Animated.Value(50));
+
   useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 1500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
     const timer = setTimeout(() => {
       navigation.replace('TabNavigator');
-    }, 1000);
+    }, 3000);
 
     return () => clearTimeout(timer);
-  }, [navigation]);
+  }, [navigation, fadeAnim, slideAnim]);
 
   return (
-    <View style={styles.container}>
-      <Image
-        // source={require('../../assets/palma-roma-logo.png')}
-        style={styles.logo}
-      />
-      <Text style={styles.title}>Welcome to Palma Roma</Text>
-      <Text style={styles.subtitle}>Discover the beauty of Rome</Text>
-    </View>
+    <ImageBackground 
+      source={require('../../assets/image/bg/PalmRome.jpg')} 
+      style={styles.container}
+    >
+      <View style={styles.overlay}>
+        <Image
+          // source={require('../../assets/palma-roma-logo.png')}
+          style={styles.logo}
+        />
+        <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
+          <Text style={styles.title}>Welcome to Le Place Rome:Time Travel</Text>
+          <Text style={styles.subtitle}>Discover the Eternal City</Text>
+        </Animated.View>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -29,20 +52,38 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(139, 69, 19, 0.6)', // Semi-transparent Saddle Brown
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
+    width: 200,
+    height: 200,
+    marginBottom: 40,
   },
   title: {
-    fontSize: 24,
+    fontSize: 48,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
+    color: '#FFD700', // Gold color
+    textAlign: 'center',
+    fontFamily: 'serif',
+    textTransform: 'uppercase',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 24,
+    color: '#FFF8DC', // Light cream color
+    textAlign: 'center',
+    fontFamily: 'serif',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
 });
