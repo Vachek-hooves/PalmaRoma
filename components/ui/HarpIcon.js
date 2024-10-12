@@ -1,5 +1,4 @@
-import {useEffect, useRef} from 'react';
-import {StyleSheet, View, Image, Animated} from 'react-native';
+import {StyleSheet, View, Image, } from 'react-native';
 
 const HarpIcon = ({isPlay}) => {
   return (
