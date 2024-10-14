@@ -29,8 +29,6 @@ const TabMapScreen = () => {
   const [newMarker, setNewMarker] = useState(null);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const {userMarkers, addUserMarker, removeUserMarker} = useCustomContext();
-  const [routeMarkers, setRouteMarkers] = useState([]);
-  const [showRoute, setShowRoute] = useState(false);
 
   const initialRegion = {
     latitude: 41.9028,
@@ -41,8 +39,6 @@ const TabMapScreen = () => {
 
   const handleMarkerPress = place => {
     setSelectedPlace(place);
-    setRouteMarkers(prev => [...prev, place]);
-    setShowRoute(true);
   };
 
   const handleShowDetails = () => {
@@ -108,11 +104,6 @@ const TabMapScreen = () => {
         },
       ],
     );
-  };
-
-  const clearRoute = () => {
-    setRouteMarkers([]);
-    setShowRoute(false);
   };
 
   const renderTuristPlaceMarkers = () =>
@@ -198,28 +189,6 @@ const TabMapScreen = () => {
     );
   };
 
-  const renderRoute = () => {
-    if (showRoute && routeMarkers.length >= 2) {
-      const coordinates = routeMarkers.map(marker => ({
-        latitude: marker.coordinate
-          ? marker.coordinate.latitude
-          : marker.coordinates[0],
-        longitude: marker.coordinate
-          ? marker.coordinate.longitude
-          : marker.coordinates[1],
-      }));
-
-      return (
-        <Polyline
-          coordinates={coordinates}
-          strokeColor="#FF0000"
-          strokeWidth={2}
-        />
-      );
-    }
-    return null;
-  };
-
   return (
     <View style={styles.container}>
       <MapView
@@ -228,7 +197,6 @@ const TabMapScreen = () => {
         onLongPress={handleMapLongPress}>
         {renderTuristPlaceMarkers()}
         {renderUserMarkers()}
-        {renderRoute()}
       </MapView>
 
       <TouchableOpacity
@@ -242,20 +210,10 @@ const TabMapScreen = () => {
         </Text>
       </TouchableOpacity>
 
-      {showRoute && (
-        <TouchableOpacity style={styles.clearRouteButton} onPress={clearRoute}>
-          <Text style={styles.clearRouteButtonText}>Clear Route</Text>
-        </TouchableOpacity>
-      )}
-
-      {(createMarkerMode || !showRoute || showRoute) && (
+      {createMarkerMode && (
         <View style={styles.instructionContainer}>
           <Text style={styles.instructionText}>
-            {createMarkerMode
-              ? 'Long press on the map to add a new marker'
-              : !showRoute
-              ? 'Tap markers to create a route'
-              : `Route: ${routeMarkers.length} points`}
+            Long press on the map to add a new marker
           </Text>
         </View>
       )}
@@ -539,20 +497,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'serif',
     textTransform: 'uppercase',
-  },
-  clearRouteButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: '#CD7F32', // Bronze color for button
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#DAA520', // Goldenrod border
-  },
-  clearRouteButtonText: {
-    color: '#FFF8DC', // Light cream color for text
-    fontWeight: 'bold',
-    fontFamily: 'serif',
   },
 });
