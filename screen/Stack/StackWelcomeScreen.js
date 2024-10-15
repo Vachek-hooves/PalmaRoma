@@ -33,7 +33,7 @@ const StackWelcomeScreen = ({ navigation }) => {
     >
       <View style={styles.overlay}>
         <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
-          <Text style={styles.title}>Welcome to Le Place Rome:Time Travel</Text>
+          <Text style={styles.title}>Welcome to Le Palme Roma: Time Traveler</Text>
           <Text style={styles.subtitle}>Discover the Eternal City</Text>
         </Animated.View>
       </View>

@@ -475,13 +475,13 @@
 				DEVELOPMENT_TEAM = W35CB3B7AF;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PalmaRoma/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Le Place Roma:Time Travel";
+				INFOPLIST_KEY_CFBundleDisplayName = "Le Palme Roma:Time Travel";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -504,13 +504,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W35CB3B7AF;
 				INFOPLIST_FILE = PalmaRoma/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Le Place Roma:Time Travel";
+				INFOPLIST_KEY_CFBundleDisplayName = "Le Palme Roma:Time Travel";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

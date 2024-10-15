@@ -7,11 +7,12 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+import BackIcon from '../../components/ui/BackIcon';
 
 const {width} = Dimensions.get('window');
 
-const StackArticleDetails = ({ route }) => {
-  const { article } = route.params || {};
+const StackArticleDetails = ({route}) => {
+  const {article} = route.params || {};
 
   if (!article) {
     return (
@@ -25,7 +26,7 @@ const StackArticleDetails = ({ route }) => {
     if (article.images && article.images.length > 0) {
       if (typeof article.images[0] === 'string') {
         // User-created article image
-        return <Image source={{ uri: article.images[0] }} style={styles.image} />;
+        return <Image source={{uri: article.images[0]}} style={styles.image} />;
       } else {
         // TuristPlaces article image
         return <Image source={article.images[0]} style={styles.image} />;
@@ -42,6 +43,7 @@ const StackArticleDetails = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       {renderImage()}
+      <BackIcon />
       <View style={styles.contentContainer}>
         <Text style={styles.header}>{article.header}</Text>
         <Text style={styles.description}>{article.description}</Text>
