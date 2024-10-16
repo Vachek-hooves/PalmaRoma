@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, ImageBackground, SafeAreaView} from 'react-nativ
 const AppLayout = ({children}) => {
   return (
     <ImageBackground
-      source={require('../../assets/image/bg/coliseum.jpg')}
+      source={require('../../assets/image/newDesign/bg.png')}
       style={styles.container}>
       <View style={styles.overlay}>
         <SafeAreaView style={styles.safeArea}>{children}</SafeAreaView>

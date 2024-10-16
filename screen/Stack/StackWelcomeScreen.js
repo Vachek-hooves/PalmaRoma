@@ -28,7 +28,7 @@ const StackWelcomeScreen = ({ navigation }) => {
 
   return (
     <ImageBackground 
-      source={require('../../assets/image/bg/PalmRome.jpg')} 
+      source={require('../../assets/image/newDesign/bg.png')} 
       style={styles.container}
     >
       <View style={styles.overlay}>

@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState,useRef} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -16,7 +16,7 @@ import {
   TabBattleGameScreen,
   TabUserAccount,
 } from './screen/Tab';
-import {View, Text, StyleSheet,AppState,Platform} from 'react-native';
+import {View, Text, StyleSheet,AppState,Platform,Animated} from 'react-native';
 import { playBackgroundMusic,resetPlayer } from './components/AppMusic/setupPlayer';
 
 const Stack = createNativeStackNavigator();
@@ -79,7 +79,15 @@ const TabNavigator = () => {
   );
 };
 
+const loaders = [
+  require('./assets/image/newDesign/loader1.png'),
+  require('./assets/image/newDesign/loader2.png'),
+];
+
 function App() {
+  const [currentLoader, setCurrentLoader] = useState(0);
+  const fadeAnim1 = useRef(new Animated.Value(1)).current;
+  const fadeAnim2 = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const initializePlayer = async () => {
@@ -106,6 +114,41 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const animationTimeout = setTimeout(() => {
+      fadeToNextLoader();
+    }, 1500); // Start transition after 3 seconds
+
+    const navigationTimeout = setTimeout(() => {
+      navigateToMenu();
+    }, 4000);
+
+    return () => {
+      clearTimeout(animationTimeout);
+      clearTimeout(navigationTimeout);
+    };
+  }, []);
+
+  const fadeToNextLoader = () => {
+    Animated.parallel([
+      Animated.timing(fadeAnim1, {
+        toValue: 0,
+        duration: 1500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim2, {
+        toValue: 1,
+        duration: 1500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setCurrentLoader(1);
+    });
+  };
+
+  const navigateToMenu = () => {
+    setCurrentLoader(2);
+  };
 
   return (
     <ContextProvider>
@@ -116,10 +159,34 @@ function App() {
             animation: 'fade',
             animationDuration: 500,
           }}>
-          <Stack.Screen
+            {currentLoader < 2 ? (
+            <Stack.Screen name="Welcome" options={{headerShown: false}}>
+              {() => (
+                <View style={{flex: 1}}>
+                  <Animated.Image
+                    source={loaders[0]}
+                    style={[
+                      {width: '100%', height: '100%', position: 'absolute'},
+                      {opacity: fadeAnim1},
+                    ]}
+                  />
+                  <Animated.Image
+                    source={loaders[1]}
+                    style={[
+                      {width: '100%', height: '100%', position: 'absolute'},
+                      {opacity: fadeAnim2},
+                    ]}
+                  />
+                </View>
+              )}
+            </Stack.Screen>
+          ) : (
+            <Stack.Screen name="StackWelcomeScreen" component={StackWelcomeScreen} />
+          )}
+          {/* <Stack.Screen
             name="StackWelcomeScreen"
             component={StackWelcomeScreen}
-          />
+          /> */}
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen
             name="StackArticleDetails"
