@@ -181,13 +181,13 @@ function App() {
               )}
             </Stack.Screen>
           ) : (
-            <Stack.Screen name="StackWelcomeScreen" component={StackWelcomeScreen} />
+            // <Stack.Screen name="StackWelcomeScreen" component={StackWelcomeScreen} />
+            <Stack.Screen name="TabNavigator" component={TabNavigator} />
           )}
           {/* <Stack.Screen
             name="StackWelcomeScreen"
             component={StackWelcomeScreen}
           /> */}
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen
             name="StackArticleDetails"
             component={StackArticleDetails}
